@@ -1,0 +1,182 @@
+// Common for all projects
+allprojects {
+	apply plugin: 'java'
+	apply plugin: 'io.spring.dependency-management'
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'war'
+
+	sourceCompatibility = 17
+	targetCompatibility = 17
+
+	repositories {
+		mavenCentral()
+		maven { url 'https://repo.spring.io/milestone' }
+	}
+
+	ext {
+		set('springCloudVersion', "Hoxton.M3")
+	}
+
+	configurations {
+		all*.exclude module : 'spring-boot-starter-logging'
+	}
+
+	dependencies {
+		// Prod
+		implementation 'io.github.cdimascio:java-dotenv:5.1.3'
+		implementation 'org.springframework:spring-context-support:5.3.19'
+		implementation 'org.springframework:spring-orm:5.3.19'
+		implementation 'org.apache.tomcat:tomcat-dbcp:9.0.29'
+		implementation 'javax.xml.bind:jaxb-api:2.3.1'
+		implementation 'com.sun.xml.bind:jaxb-impl:2.3.2'
+		implementation 'org.freemarker:freemarker-gae:2.3.29'
+		implementation 'org.reflections:reflections:0.9.11'
+		implementation 'org.springframework.boot:spring-boot-starter-amqp:2.7.5'
+		implementation 'org.mongodb:mongo-java-driver:3.12.11'
+		implementation 'com.ecwid:maleorang:3.0-0.9.2'
+		implementation 'org.thymeleaf:thymeleaf-spring5:3.0.15.RELEASE'
+		implementation 'org.springframework.boot:spring-boot-starter-mail:2.7.5'
+		implementation 'org.apache.poi:poi:5.2.2'
+		implementation 'org.springframework:spring-beans:5.3.19'
+		implementation 'com.vlkan.log4j2:log4j2-logstash-layout:1.0.5'
+		implementation 'org.springframework.boot:spring-boot-starter-log4j2:2.7.5'
+		implementation ('com.github.javafaker:javafaker:1.0.2') { exclude module: 'org.yaml' }
+		implementation group: 'org.yaml', name: 'snakeyaml', version: '1.26'
+
+		// Test
+		testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.3'
+		testImplementation 'org.mockito:mockito-core:2.+'
+		testImplementation 'com.github.javafaker:javafaker:1.0.1'
+		testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.3'
+
+	}
+
+	dependencyManagement {
+		imports {
+			mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+		}
+	}
+
+	test {
+		useJUnitPlatform()
+
+		testLogging {
+			events "passed", "skipped", "failed"
+		}
+	}
+
+
+	task view_paths {
+		doLast { task ->
+			println "$task.project.name"
+			println "------------------"
+			println "Main: $sourceSets.main.java.srcDirTrees"
+			println "   Resources: $sourceSets.main.resources.srcDirTrees"
+			println "Tests: $sourceSets.test.java.srcDirTrees"
+			println "   Resources: $sourceSets.test.resources.srcDirTrees"
+		}
+	}
+}
+
+// All subprojects (located in src/*)
+subprojects {
+	group = "edu.poniperro.nowait.${rootProject.name}"
+
+	sourceSets {
+		main {
+			java { srcDirs = ['main'] }
+			resources { srcDirs = ['main/resources'] }
+		}
+
+		test {
+			java { srcDirs = ['test'] }
+			resources { srcDirs = ['test/resources'] }
+		}
+	}
+
+	dependencies {
+		// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web
+		implementation 'org.springframework.boot:spring-boot-starter-web:2.7.5'
+
+		//implementation 'org.springframework.boot:spring-boot-starter-web:2.6.7'
+
+		testImplementation rootProject.sourceSets.main.output
+		// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
+		testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.5'
+
+
+		//testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.7'
+
+		if (project.name != "shared") {
+			implementation project(":shared")
+			testImplementation project(":shared").sourceSets.test.output
+		}
+	}
+
+	bootJar {
+		enabled = false
+	}
+
+	jar {
+		enabled = true
+	}
+}
+
+// Main project (located in apps/)
+buildscript {
+	repositories {
+		mavenCentral()
+		gradlePluginPortal()
+	}
+	dependencies {
+		// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-gradle-plugin
+		classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.7.5'
+		classpath "com.bmuschko:gradle-tomcat-plugin:2.7.0"
+
+		//classpath "org.springframework.boot:spring-boot-gradle-plugin:2.6.7"
+	}
+}
+
+apply plugin: 'application'
+apply plugin: 'com.bmuschko.tomcat'
+apply plugin: 'com.bmuschko.tomcat-base'
+
+
+sourceSets {
+	main {
+		java { srcDirs = ['apps/main'] }
+		resources { srcDirs = ['apps/main/resources'] }
+	}
+
+	test {
+		java { srcDirs = ['apps/test'] }
+		resources { srcDirs = ['apps/test/resources'] }
+	}
+}
+
+
+bootJar {
+	baseName = 'nowait-api'
+	version = '0.0.1'
+}
+
+war {
+	baseName = 'nowait-api'
+	version = '0.0.1'
+}
+
+
+mainClassName = 'edu.poniperro.nowait.apps.Application'
+
+dependencies {
+
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	implementation project(":shared")
+	implementation project(":core")
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation project(":shared").sourceSets.test.output
+
+}
+
