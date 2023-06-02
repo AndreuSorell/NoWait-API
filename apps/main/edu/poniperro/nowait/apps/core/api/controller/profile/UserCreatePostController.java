@@ -24,7 +24,6 @@ public final class UserCreatePostController extends ApiController {
     @PostMapping(path = "/profile/create")
     public ResponseEntity index(@RequestBody RequestUser request) throws CommandNotRegisteredError {
         dispatch(new CreateUserCommand(
-                request.getId(),
                 request.getName(),
                 request.getEmail(),
                 request.getPassword(),
@@ -42,21 +41,12 @@ public final class UserCreatePostController extends ApiController {
 }
 
 final class RequestUser {
-    private int id;
     private String name;
     private String email;
     private String password;
     private String anonymous;
     private String type;
     private String creationDate;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

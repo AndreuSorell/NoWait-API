@@ -3,6 +3,7 @@ package edu.poniperro.nowait.core.profile.user.application.create;
 import edu.poniperro.nowait.core.profile.user.domain.User;
 import edu.poniperro.nowait.core.profile.user.domain.UserRepository;
 import edu.poniperro.nowait.shared.domain.Service;
+import org.bson.types.ObjectId;
 
 @Service
 public final class UserCreator {
@@ -12,9 +13,9 @@ public final class UserCreator {
         this.repository = repository;
     }
 
-    public void create(int id, String name, String email, String password, String anonymous, String type,
-            String creationDate) {
-        User user = User.create(id, name, email, password, anonymous, type, creationDate);
+    public void create(String name, String email, String password, String anonymous, String type,
+                       String creationDate) {
+        User user = User.create(name, email, password, anonymous, type, creationDate);
         repository.save(user);
     }
 }
