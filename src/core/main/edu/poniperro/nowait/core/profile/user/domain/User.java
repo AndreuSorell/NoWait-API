@@ -1,10 +1,12 @@
 package edu.poniperro.nowait.core.profile.user.domain;
 
+import org.bson.types.ObjectId;
+
 import java.util.HashMap;
 import java.util.Objects;
 
 public final class User {
-    private int id;
+    private ObjectId id;
     private String name;
     private String email;
     private String password;
@@ -12,9 +14,19 @@ public final class User {
     private String type;
     private String creationDate;
 
-    public User(int id, String name, String email, String password, String anonymous, String type,
+    public User(ObjectId id, String name, String email, String password, String anonymous, String type,
             String creationDate) {
         this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.anonymous = anonymous;
+        this.type = type;
+        this.creationDate = creationDate;
+    }
+
+    public User(String name, String email, String password, String anonymous, String type,
+                String creationDate) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -26,14 +38,13 @@ public final class User {
     public User() {
     }
 
-    public static User create(int id, String name, String email, String password, String anonymous, String type,
+    public static User create(String name, String email, String password, String anonymous, String type,
             String creationDate) {
-        return new User(id, name, email, password, anonymous, type, creationDate);
+        return new User(name, email, password, anonymous, type, creationDate);
     }
 
     public HashMap<String, Object> toPrimitives() {
         return new HashMap<String, Object>() {{
-            put("id", id);
             put("name", name);
             put("email", email);
             put("password", password);
@@ -43,11 +54,11 @@ public final class User {
         }};
     }
 
-    public int getId() {
+    public ObjectId getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(ObjectId id) {
         this.id = id;
     }
 
@@ -117,7 +128,7 @@ public final class User {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
