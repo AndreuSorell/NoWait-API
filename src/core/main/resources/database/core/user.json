@@ -1,0 +1,9 @@
+[
+  {
+    "key": "id",
+    "name": "id",
+    "ascending": true,
+    "unique": true,
+    "background": false
+  }
+]
