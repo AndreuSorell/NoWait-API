@@ -10,7 +10,7 @@ import org.springframework.context.annotation.FilterType;
 
 import java.util.HashMap;
 
-@SpringBootApplication(/*exclude = HibernateJpaAutoConfiguration.class*/)
+@SpringBootApplication(exclude = HibernateJpaAutoConfiguration.class)
 @ComponentScan(
         includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Service.class),
         value = {"edu.poniperro.nowait.apps", "edu.poniperro.nowait.core", "edu.poniperro.nowait.shared"})

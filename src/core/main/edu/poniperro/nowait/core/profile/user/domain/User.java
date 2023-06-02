@@ -1,5 +1,6 @@
 package edu.poniperro.nowait.core.profile.user.domain;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 public final class User {
@@ -28,6 +29,18 @@ public final class User {
     public static User create(int id, String name, String email, String password, String anonymous, String type,
             String creationDate) {
         return new User(id, name, email, password, anonymous, type, creationDate);
+    }
+
+    public HashMap<String, Object> toPrimitives() {
+        return new HashMap<String, Object>() {{
+            put("id", id);
+            put("name", name);
+            put("email", email);
+            put("password", password);
+            put("anonymous", anonymous);
+            put("type", type);
+            put("creationDate", creationDate);
+        }};
     }
 
     public int getId() {
