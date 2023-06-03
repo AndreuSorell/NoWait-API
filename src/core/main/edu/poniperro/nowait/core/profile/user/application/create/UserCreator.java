@@ -5,6 +5,8 @@ import edu.poniperro.nowait.core.profile.user.domain.UserRepository;
 import edu.poniperro.nowait.shared.domain.Service;
 import org.bson.types.ObjectId;
 
+import java.time.LocalDateTime;
+
 @Service
 public final class UserCreator {
     private final UserRepository repository;
@@ -14,7 +16,7 @@ public final class UserCreator {
     }
 
     public void create(String name, String email, String password, String anonymous, String type,
-                       String creationDate) {
+                       LocalDateTime creationDate) {
         User user = User.create(name, email, password, anonymous, type, creationDate);
         repository.save(user);
     }

@@ -3,6 +3,7 @@ package edu.poniperro.nowait.core.profile.user.application.create;
 import edu.poniperro.nowait.shared.domain.bus.command.Command;
 import org.bson.types.ObjectId;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class CreateUserCommand implements Command {
@@ -11,10 +12,10 @@ public class CreateUserCommand implements Command {
     private String password;
     private String anonymous;
     private String type;
-    private String creationDate;
+    private LocalDateTime creationDate;
 
     public CreateUserCommand(String name, String email, String password, String anonymous, String type,
-            String creationDate) {
+                             LocalDateTime creationDate) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -63,11 +64,11 @@ public class CreateUserCommand implements Command {
         this.type = type;
     }
 
-    public String getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(String creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 

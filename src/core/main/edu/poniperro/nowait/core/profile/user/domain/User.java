@@ -2,6 +2,7 @@ package edu.poniperro.nowait.core.profile.user.domain;
 
 import org.bson.types.ObjectId;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -12,10 +13,10 @@ public final class User {
     private String password;
     private String anonymous;
     private String type;
-    private String creationDate;
+    private LocalDateTime creationDate;
 
     public User(ObjectId id, String name, String email, String password, String anonymous, String type,
-            String creationDate) {
+                LocalDateTime creationDate) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -26,7 +27,7 @@ public final class User {
     }
 
     public User(String name, String email, String password, String anonymous, String type,
-                String creationDate) {
+                LocalDateTime creationDate) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -39,7 +40,7 @@ public final class User {
     }
 
     public static User create(String name, String email, String password, String anonymous, String type,
-            String creationDate) {
+                              LocalDateTime creationDate) {
         return new User(name, email, password, anonymous, type, creationDate);
     }
 
@@ -102,11 +103,11 @@ public final class User {
         this.type = type;
     }
 
-    public String getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(String creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 

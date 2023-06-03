@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 @RestController
@@ -29,7 +30,7 @@ public final class UserCreatePostController extends ApiController {
                 request.getPassword(),
                 request.getAnonymous(),
                 request.getType(),
-                request.getCreationDate()));
+                LocalDateTime.now()));
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -46,7 +47,6 @@ final class RequestUser {
     private String password;
     private String anonymous;
     private String type;
-    private String creationDate;
 
     public String getName() {
         return name;
@@ -86,13 +86,5 @@ final class RequestUser {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public String getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(String creationDate) {
-        this.creationDate = creationDate;
     }
 }
