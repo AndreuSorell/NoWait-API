@@ -56,19 +56,19 @@ public final class MongoConfigurationFactory {
         MongoClient mongoClient = MongoClients.create(settings);
         database = mongoClient.getDatabase(databaseName);
 
-        //Resource[] resourceCollections = getCollections(collectionName);
+        Resource[] resourceCollections = getCollections(collectionName);
 
-        //generateCollectionIfNoExists(database, resourceCollections);
-        //generateIndexIfNoExists(database, resourceCollections);
+        generateCollectionIfNoExists(database, resourceCollections);
+        generateIndexIfNoExists(database, resourceCollections);
 
         return database;
     }
 
-    /*private Resource[] getCollections(String contextName) throws IOException{
+    private Resource[] getCollections(String contextName) throws IOException{
         return resourceResolver.getResources(String.format("classpath:database/%s/*.json", contextName));
-    }*/
+    }
 
-    /*private void generateCollectionIfNoExists(MongoDatabase database, Resource[] resourceCollections) throws IOException{
+    private void generateCollectionIfNoExists(MongoDatabase database, Resource[] resourceCollections) throws IOException{
 
         for (Resource collection : resourceCollections) {
             String collectionName = Objects.requireNonNull(
@@ -78,9 +78,9 @@ public final class MongoConfigurationFactory {
                 database.createCollection(collectionName);
             }
         }
-    }*/
+    }
 
-    /*private void generateIndexIfNoExists(MongoDatabase database, Resource[] resourceCollections) throws IOException {
+    private void generateIndexIfNoExists(MongoDatabase database, Resource[] resourceCollections) throws IOException {
         for (Resource resource : resourceCollections) {
             byte[] bdata = FileCopyUtils.copyToByteArray(resource.getInputStream());
             String data = new String(bdata, StandardCharsets.UTF_8);
@@ -107,9 +107,9 @@ public final class MongoConfigurationFactory {
                 }
             }
         }
-    }*/
+    }
 
-    /*private boolean indexExists(String indexName, MongoCollection<Document> collection) throws IOException {
+    private boolean indexExists(String indexName, MongoCollection<Document> collection) throws IOException {
 
         ListIndexesIterable<Document> indexes = collection.listIndexes();
 
@@ -120,9 +120,9 @@ public final class MongoConfigurationFactory {
         }
 
         return false;
-    }*/
+    }
 
-    /*private boolean collectionExists(String collectionName, MongoDatabase database) throws IOException {
+    private boolean collectionExists(String collectionName, MongoDatabase database) throws IOException {
 
         var collectionNames = database.listCollectionNames();
 
@@ -133,5 +133,5 @@ public final class MongoConfigurationFactory {
         }
 
         return false;
-    }*/
+    }
 }
