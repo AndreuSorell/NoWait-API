@@ -22,7 +22,7 @@ public class CoreMongoDbConfiguration {
         return factory.client(
                 "localhost",
                 "27017",
-                "test",
+                "nowait",
                 "asorellpou",
                 "asorellpou",
                 "core");
