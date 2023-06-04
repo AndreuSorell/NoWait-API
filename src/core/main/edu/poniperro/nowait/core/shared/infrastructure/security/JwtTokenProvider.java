@@ -8,7 +8,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import edu.poniperro.nowait.core.shared.infrastructure.security.CustomUserDetails;
 
+import javax.crypto.SecretKey;
 import java.util.Date;
+
+import static io.jsonwebtoken.security.Keys.secretKeyFor;
 
 @Component
 public class JwtTokenProvider {
@@ -26,13 +29,15 @@ public class JwtTokenProvider {
      * @return el token JWT generado
      */
     public String generateToken(Authentication authentication) {
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        System.out.println(authentication.getPrincipal());
+        //CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpiration * 1000);
 
+        //SecretKey key = secretKeyFor(SignatureAlgorithm.HS512);
         return Jwts.builder()
-                .setSubject(userDetails.getEmail())  // Utiliza el email en lugar del nombre de usuario
+                .setSubject((String) authentication.getPrincipal())  // Utiliza el email en lugar del nombre de usuario
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)

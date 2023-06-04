@@ -16,11 +16,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.security.PermitAll;
+import javax.servlet.http.Cookie;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -52,9 +54,12 @@ public final class UserLoginController extends ApiController {
                     new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
             // Generar token JWT
-            //String token = jwtTokenProvider.generateToken(authentication);
+            String token = jwtTokenProvider.generateToken(authentication);
+            String cookieToken = "token=" + token+"; Max-Age=86400; ";
 
-            return ResponseEntity.ok("token");
+            MultiValueMap<String, String> headers = new org.springframework.http.HttpHeaders();
+            headers.add("Set-Cookie", cookieToken);
+            return new ResponseEntity<String>(token, headers, HttpStatus.OK);
         } catch (AuthenticationException ex) {
             // Manejo de error de autenticación
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
