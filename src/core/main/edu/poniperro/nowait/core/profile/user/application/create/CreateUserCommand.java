@@ -12,10 +12,10 @@ public class CreateUserCommand implements Command {
     private String password;
     private String anonymous;
     private String type;
-    private LocalDateTime creationDate;
+    private String creationDate;
 
     public CreateUserCommand(String name, String email, String password, String anonymous, String type,
-                             LocalDateTime creationDate) {
+                             String creationDate) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -64,11 +64,11 @@ public class CreateUserCommand implements Command {
         this.type = type;
     }
 
-    public LocalDateTime getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDateTime creationDate) {
+    public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
     }
 

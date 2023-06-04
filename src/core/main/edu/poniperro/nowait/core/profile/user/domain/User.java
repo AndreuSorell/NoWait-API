@@ -2,8 +2,12 @@ package edu.poniperro.nowait.core.profile.user.domain;
 
 import org.bson.types.ObjectId;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public final class User {
@@ -13,10 +17,10 @@ public final class User {
     private String password;
     private String anonymous;
     private String type;
-    private LocalDateTime creationDate;
+    private String creationDate;
 
     public User(ObjectId id, String name, String email, String password, String anonymous, String type,
-                LocalDateTime creationDate) {
+                String creationDate) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -27,7 +31,7 @@ public final class User {
     }
 
     public User(String name, String email, String password, String anonymous, String type,
-                LocalDateTime creationDate) {
+                String creationDate) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -40,7 +44,7 @@ public final class User {
     }
 
     public static User create(String name, String email, String password, String anonymous, String type,
-                              LocalDateTime creationDate) {
+                              String creationDate) {
         return new User(name, email, password, anonymous, type, creationDate);
     }
 
@@ -54,6 +58,32 @@ public final class User {
             put("creationDate", creationDate);
         }};
     }
+
+    /*public static User fromPrimitives(ObjectId id, String name, String email, String password, String anonymous,
+                                      String type, LocalDateTime creationDate) {
+        return new User(id, name, email, password, anonymous, type, creationDate);
+    }*/
+
+    public static User fromPrimitives(Map<String, Serializable> plainData) {
+        String name = (String) plainData.get("name");
+        String email = (String) plainData.get("email");
+        String password = (String) plainData.get("password");
+        String anonymous = (String) plainData.get("anonymous");
+        String type = (String) plainData.get("type");
+        String creationDate = (String) plainData.get("creationDate");
+        /*Map<String, Integer> creationDateMap = (Map<String, Integer>) plainData.get("creationDate");
+        int year = creationDateMap.get("year");
+        int month = creationDateMap.get("month");
+        int day = creationDateMap.get("day");
+        int hour = creationDateMap.get("hour");
+        int minute = creationDateMap.get("minute");
+        int second = creationDateMap.get("second");
+
+        LocalDateTime creationDate = LocalDateTime.of(year, month, day, hour, minute, second);*/
+
+        return new User(name, email, password, anonymous, type, creationDate);
+    }
+
 
     public ObjectId getId() {
         return id;
@@ -103,11 +133,11 @@ public final class User {
         this.type = type;
     }
 
-    public LocalDateTime getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDateTime creationDate) {
+    public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
     }
 
@@ -137,5 +167,9 @@ public final class User {
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (creationDate != null ? creationDate.hashCode() : 0);
         return result;
+    }
+
+    public User  orElseThrow(Object userNotFound) {
+        return null;
     }
 }

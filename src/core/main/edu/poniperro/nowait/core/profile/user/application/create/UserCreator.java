@@ -16,7 +16,7 @@ public final class UserCreator {
     }
 
     public void create(String name, String email, String password, String anonymous, String type,
-                       LocalDateTime creationDate) {
+                       String creationDate) {
         User user = User.create(name, email, password, anonymous, type, creationDate);
         repository.save(user);
     }

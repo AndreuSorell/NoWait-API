@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.security.PermitAll;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
+@PermitAll
 @RestController
 public final class UserCreatePostController extends ApiController {
 
@@ -22,6 +24,7 @@ public final class UserCreatePostController extends ApiController {
         super(queryBus, commandBus);
     }
 
+    @PermitAll
     @PostMapping(path = "/profile/create")
     public ResponseEntity index(@RequestBody RequestUser request) throws CommandNotRegisteredError {
         dispatch(new CreateUserCommand(
@@ -30,7 +33,7 @@ public final class UserCreatePostController extends ApiController {
                 request.getPassword(),
                 request.getAnonymous(),
                 request.getType(),
-                LocalDateTime.now()));
+                LocalDateTime.now().toString()));
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
