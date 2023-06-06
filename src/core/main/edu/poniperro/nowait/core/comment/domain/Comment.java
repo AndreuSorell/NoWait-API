@@ -1,5 +1,6 @@
 package edu.poniperro.nowait.core.comment.domain;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -43,6 +44,19 @@ public final class Comment {
                 put("placeId", placeId);
             }
         };
+    }
+
+    public static Comment fromPrimitives(HashMap<String, Serializable> data) {
+        return new Comment(
+                (String) data.get("commentText"),
+                (int) data.get("quantifiableElement"),
+                (String) data.get("email"),
+                (int) data.get("reports"),
+                (int) data.get("likes"),
+                (int) data.get("dislikes"),
+                (String) data.get("creationDate"),
+                (String) data.get("placeId")
+        );
     }
 
     public String getCommentText() {
