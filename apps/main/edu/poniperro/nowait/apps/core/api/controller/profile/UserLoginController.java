@@ -44,9 +44,6 @@ public final class UserLoginController extends ApiController {
 
     @PostMapping(path = "/profile/login")
     public ResponseEntity<String> index(@RequestBody LoginRequest request) throws QueryNotRegisteredError {
-        // sa query per si necesit mes dades
-        //UserResponse response = ask(new LoginUserQuery(request.getEmail(), request.getPassword()));
-
         // Autenticación y generación de token JWT
         try {
             // Autenticar al usuario
@@ -55,11 +52,12 @@ public final class UserLoginController extends ApiController {
 
             // Generar token JWT
             String token = jwtTokenProvider.generateToken(authentication);
-            String cookieToken = "token=" + token+"; Max-Age=86400; ";
 
+            /*String cookieToken = "token=" + token+"; Max-Age=86400; ";
             MultiValueMap<String, String> headers = new org.springframework.http.HttpHeaders();
-            headers.add("Set-Cookie", cookieToken);
-            return new ResponseEntity<String>(token, headers, HttpStatus.OK);
+            headers.add("Set-Cookie", cookieToken);*/
+
+            return new ResponseEntity<String>(token, HttpStatus.OK);
         } catch (AuthenticationException ex) {
             // Manejo de error de autenticación
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

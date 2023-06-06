@@ -1,13 +1,16 @@
 package edu.poniperro.nowait.apps.core.api.controller.comment;
 
 import edu.poniperro.nowait.core.profile.comment.application.create.CreateCommentCommand;
+import edu.poniperro.nowait.core.shared.infrastructure.security.JwtTokenProvider;
 import edu.poniperro.nowait.shared.domain.DomainError;
 import edu.poniperro.nowait.shared.domain.bus.command.CommandBus;
 import edu.poniperro.nowait.shared.domain.bus.command.CommandNotRegisteredError;
 import edu.poniperro.nowait.shared.domain.bus.query.QueryBus;
 import edu.poniperro.nowait.shared.infraestructure.spring.ApiController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +21,8 @@ import java.util.HashMap;
 @RestController
 public class CommentCreatePostController extends ApiController {
 
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
     public CommentCreatePostController(QueryBus queryBus, CommandBus commandBus) {
         super(queryBus, commandBus);
     }
@@ -30,7 +35,7 @@ public class CommentCreatePostController extends ApiController {
         dispatch(new CreateCommentCommand(
                 request.getCommentText(),
                 request.getQuantifiableElement(),
-                request.getEmail(),
+                jwtTokenProvider.getEmailFromToken(request.getToken()),
                 reports,
                 likes,
                 dislikes,
@@ -46,10 +51,18 @@ public class CommentCreatePostController extends ApiController {
 }
 
 final class RequestComment {
+    private String token;
     private String commentText;
     private int quantifiableElement;
-    private String email;
     private String placeId;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String getCommentText() {
         return commentText;
@@ -65,14 +78,6 @@ final class RequestComment {
 
     public void setQuantifiableElement(int quantifiableElement) {
         this.quantifiableElement = quantifiableElement;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPlaceId() {
