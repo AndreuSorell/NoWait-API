@@ -1,6 +1,8 @@
 package edu.poniperro.nowait.core.profile.user.application.login;
 
-public class UserResponse {
+import edu.poniperro.nowait.shared.domain.bus.query.Response;
+
+public class UserResponse implements Response {
     private String email;
     private String token;
 

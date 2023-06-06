@@ -52,4 +52,14 @@ public class MongoDBUserRepository implements UserRepository {
                         .map(document -> User.fromPrimitives(Utils.jsonDecode(document.toJson())));
         }
 
+        @Override
+        public User searchByEmail(String email) {
+                MongoCollection<Document> userCollection = database.getCollection("user");
+                Document user = userCollection.find(new Document("email", email)).first();
+                if (user == null) {
+                        return new User();
+                }
+                return User.fromPrimitives(Utils.jsonDecode(user.toJson()
+                ));
+        }
 }

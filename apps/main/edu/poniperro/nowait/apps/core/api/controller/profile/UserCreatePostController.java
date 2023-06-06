@@ -1,6 +1,8 @@
 package edu.poniperro.nowait.apps.core.api.controller.profile;
 
 import edu.poniperro.nowait.core.profile.user.application.create.CreateUserCommand;
+import edu.poniperro.nowait.core.profile.user.application.search.SearchUserEmailQuery;
+import edu.poniperro.nowait.core.profile.user.application.search.SearchUserEmailResponse;
 import edu.poniperro.nowait.shared.domain.DomainError;
 import edu.poniperro.nowait.shared.domain.bus.command.CommandBus;
 import edu.poniperro.nowait.shared.domain.bus.command.CommandNotRegisteredError;
@@ -26,16 +28,22 @@ public final class UserCreatePostController extends ApiController {
 
     @PermitAll
     @PostMapping(path = "/profile/create")
-    public ResponseEntity index(@RequestBody RequestUser request) throws CommandNotRegisteredError {
-        dispatch(new CreateUserCommand(
-                request.getName(),
-                request.getEmail(),
-                request.getPassword(),
-                request.getAnonymous(),
-                request.getType(),
-                LocalDateTime.now().toString()));
+    public ResponseEntity<String> index(@RequestBody RequestUser request) throws CommandNotRegisteredError {
+        SearchUserEmailResponse response = ask(new SearchUserEmailQuery(request.getEmail()));
+        if (!response.getEmail().equals("")) {
+            return new ResponseEntity<String>("User already exists", HttpStatus.CONFLICT); // 409
+        }
+        else {
+            dispatch(new CreateUserCommand(
+                    request.getName(),
+                    request.getEmail(),
+                    request.getPassword(),
+                    request.getAnonymous(),
+                    request.getType(),
+                    LocalDateTime.now().toString()));
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+            return new ResponseEntity<String>("User created", HttpStatus.CREATED); // 201
+        }
     }
 
     @Override
