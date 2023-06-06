@@ -1,4 +1,4 @@
-package edu.poniperro.nowait.core.profile.comment.application.create;
+package edu.poniperro.nowait.core.comment.application.create;
 
 import edu.poniperro.nowait.shared.domain.bus.command.Command;
 

@@ -1,6 +1,6 @@
 package edu.poniperro.nowait.apps.core.api.controller.comment;
 
-import edu.poniperro.nowait.core.profile.comment.application.create.CreateCommentCommand;
+import edu.poniperro.nowait.core.comment.application.create.CreateCommentCommand;
 import edu.poniperro.nowait.core.shared.infrastructure.security.JwtTokenProvider;
 import edu.poniperro.nowait.shared.domain.DomainError;
 import edu.poniperro.nowait.shared.domain.bus.command.CommandBus;
@@ -10,7 +10,6 @@ import edu.poniperro.nowait.shared.infraestructure.spring.ApiController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,9 +1,9 @@
-package edu.poniperro.nowait.core.profile.comment.infrastructure;
+package edu.poniperro.nowait.core.comment.infrastructure;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import edu.poniperro.nowait.core.profile.comment.domain.Comment;
-import edu.poniperro.nowait.core.profile.comment.domain.CommentRepository;
+import edu.poniperro.nowait.core.comment.domain.Comment;
+import edu.poniperro.nowait.core.comment.domain.CommentRepository;
 import edu.poniperro.nowait.shared.domain.Service;
 import org.bson.Document;
 import org.springframework.context.annotation.Primary;

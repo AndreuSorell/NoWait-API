@@ -1,7 +1,7 @@
-package edu.poniperro.nowait.core.profile.comment.application.create;
+package edu.poniperro.nowait.core.comment.application.create;
 
-import edu.poniperro.nowait.core.profile.comment.domain.Comment;
-import edu.poniperro.nowait.core.profile.comment.domain.CommentRepository;
+import edu.poniperro.nowait.core.comment.domain.CommentRepository;
+import edu.poniperro.nowait.core.comment.domain.Comment;
 import edu.poniperro.nowait.shared.domain.Service;
 
 @Service
