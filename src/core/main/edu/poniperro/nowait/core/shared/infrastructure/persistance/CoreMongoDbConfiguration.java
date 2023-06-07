@@ -20,11 +20,11 @@ public class CoreMongoDbConfiguration {
     @Bean
     public MongoDatabase cLient() throws ParameterNotExist, IOException {
         return factory.client(
-                "localhost",
+                "prod", // "localhost",
                 "27017",
-                "testt",
-                "asorellpou",
-                "asorellpou",
+                "nowait", // "testt",
+                "test",
+                "test",
                 "core");
     }
 }

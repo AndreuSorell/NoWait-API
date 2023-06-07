@@ -10,6 +10,7 @@ import com.mongodb.client.model.Indexes;
 import edu.poniperro.nowait.shared.domain.Service;
 import edu.poniperro.nowait.shared.infraestructure.config.ParameterNotExist;
 import org.bson.Document;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.util.FileCopyUtils;
@@ -23,6 +24,8 @@ import java.util.Objects;
 @Service
 public final class MongoConfigurationFactory {
 
+    @Value("${database.url}")
+    private String DB_URL;
     private final ResourcePatternResolver resourceResolver;
 
 
@@ -45,7 +48,8 @@ public final class MongoConfigurationFactory {
         String connectionUrl = String.format("mongodb://%s:%s", host, port);
 
         if(!host.equals("localhost")){
-            connectionUrl = String.format("mongodb://%s:%s@%s:%s/?retryWrites=true&w=majority", user, password, host, port);
+            connectionUrl = DB_URL;
+            //connectionUrl = String.format("mongodb://%s:%s@%s:%s/?retryWrites=true&w=majority", user, password, host, port);
         }
 
         ConnectionString connectionString = new ConnectionString(connectionUrl);

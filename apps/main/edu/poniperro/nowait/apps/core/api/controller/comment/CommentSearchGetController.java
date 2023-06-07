@@ -24,8 +24,6 @@ import java.util.stream.Collectors;
 @RestController
 public class CommentSearchGetController extends ApiController {
 
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
     public CommentSearchGetController(QueryBus queryBus, CommandBus commandBus) {
         super(queryBus, commandBus);
     }
@@ -34,22 +32,8 @@ public class CommentSearchGetController extends ApiController {
     public List<HashMap<String, Serializable>> index(@RequestBody RequestComments request) throws CommandNotRegisteredError {
 
         CommentsResponse responses = ask(new SearchCommentsByPlaceIdQuery(
-                //jwtTokenProvider.getEmailFromToken(request.getToken()),
-                //LocalDateTime.now().toString(),
                 request.getPlaceId()
         ));
-        /*return responses.getComments().stream().map(comment -> {
-            HashMap<String, Serializable> response = new HashMap<>();
-            response.put("commentText", comment.getCommentText());
-            response.put("quantifiableElement", comment.getQuantifiableElement());
-            response.put("email", comment.getEmail());
-            response.put("reports", comment.getReports());
-            response.put("likes", comment.getLikes());
-            response.put("dislikes", comment.getDislikes());
-            response.put("createionDate", comment.getCreationDate());
-            response.put("placeId", comment.getPlaceId());
-            return response;
-        }).toList();*/
         return responses.getComments().stream().map(CommentResponse::toPrimitives).collect(Collectors.toList());
     }
 
