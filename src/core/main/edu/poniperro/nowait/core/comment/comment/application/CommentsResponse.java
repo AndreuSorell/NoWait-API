@@ -1,4 +1,4 @@
-package edu.poniperro.nowait.core.comment.application;
+package edu.poniperro.nowait.core.comment.comment.application;
 
 import edu.poniperro.nowait.shared.domain.bus.query.Response;
 

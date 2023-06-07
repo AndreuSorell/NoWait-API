@@ -1,8 +1,8 @@
 package edu.poniperro.nowait.apps.core.api.controller.comment;
 
-import edu.poniperro.nowait.core.comment.application.CommentResponse;
-import edu.poniperro.nowait.core.comment.application.CommentsResponse;
-import edu.poniperro.nowait.core.comment.application.search.SearchCommentsByPlaceIdQuery;
+import edu.poniperro.nowait.core.comment.comment.application.CommentResponse;
+import edu.poniperro.nowait.core.comment.comment.application.CommentsResponse;
+import edu.poniperro.nowait.core.comment.comment.application.search.SearchCommentsByPlaceIdQuery;
 import edu.poniperro.nowait.core.shared.infrastructure.security.JwtTokenProvider;
 import edu.poniperro.nowait.shared.domain.DomainError;
 import edu.poniperro.nowait.shared.domain.bus.command.CommandBus;

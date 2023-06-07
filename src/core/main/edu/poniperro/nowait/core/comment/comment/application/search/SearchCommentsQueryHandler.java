@@ -1,6 +1,6 @@
-package edu.poniperro.nowait.core.comment.application.search;
+package edu.poniperro.nowait.core.comment.comment.application.search;
 
-import edu.poniperro.nowait.core.comment.application.CommentsResponse;
+import edu.poniperro.nowait.core.comment.comment.application.CommentsResponse;
 import edu.poniperro.nowait.shared.domain.Service;
 import edu.poniperro.nowait.shared.domain.bus.query.QueryHandler;
 

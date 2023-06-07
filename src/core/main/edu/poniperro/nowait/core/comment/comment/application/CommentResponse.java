@@ -1,6 +1,6 @@
-package edu.poniperro.nowait.core.comment.application;
+package edu.poniperro.nowait.core.comment.comment.application;
 
-import edu.poniperro.nowait.core.comment.domain.Comment;
+import edu.poniperro.nowait.core.comment.comment.domain.Comment;
 import edu.poniperro.nowait.shared.domain.bus.query.Response;
 
 import java.io.Serializable;

@@ -1,6 +1,6 @@
 package edu.poniperro.nowait.apps.core.api.controller.comment;
 
-import edu.poniperro.nowait.core.comment.application.create.CreateCommentCommand;
+import edu.poniperro.nowait.core.comment.comment.application.create.CreateCommentCommand;
 import edu.poniperro.nowait.core.shared.infrastructure.security.JwtTokenProvider;
 import edu.poniperro.nowait.shared.domain.DomainError;
 import edu.poniperro.nowait.shared.domain.bus.command.CommandBus;

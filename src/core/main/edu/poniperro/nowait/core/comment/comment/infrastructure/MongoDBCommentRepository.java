@@ -1,9 +1,9 @@
-package edu.poniperro.nowait.core.comment.infrastructure;
+package edu.poniperro.nowait.core.comment.comment.infrastructure;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import edu.poniperro.nowait.core.comment.domain.Comment;
-import edu.poniperro.nowait.core.comment.domain.CommentRepository;
+import edu.poniperro.nowait.core.comment.comment.domain.Comment;
+import edu.poniperro.nowait.core.comment.comment.domain.CommentRepository;
 import edu.poniperro.nowait.shared.domain.Service;
 import edu.poniperro.nowait.shared.domain.Utils;
 import org.bson.Document;
@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Primary;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;

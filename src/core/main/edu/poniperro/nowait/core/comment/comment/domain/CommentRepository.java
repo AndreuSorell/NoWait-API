@@ -1,4 +1,4 @@
-package edu.poniperro.nowait.core.comment.domain;
+package edu.poniperro.nowait.core.comment.comment.domain;
 
 import java.util.List;
 

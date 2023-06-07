@@ -1,10 +1,10 @@
-package edu.poniperro.nowait.core.comment.application.create;
+package edu.poniperro.nowait.core.comment.comment.domain;
 
-import edu.poniperro.nowait.shared.domain.bus.command.Command;
-
+import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Objects;
 
-public class CreateCommentCommand implements Command {
+public final class Comment {
     private String commentText;
     private int quantifiableElement;
     private String email;
@@ -14,8 +14,8 @@ public class CreateCommentCommand implements Command {
     private String creationDate;
     private String placeId;
 
-    public CreateCommentCommand(String commentText, int quantifiableElement, String email, int reports, int likes,
-            int dislikes, String creationDate, String placeId) {
+    private Comment(String commentText, int quantifiableElement, String email, int reports, int likes, int dislikes,
+            String creationDate, String placeId) {
         this.commentText = commentText;
         this.quantifiableElement = quantifiableElement;
         this.email = email;
@@ -24,6 +24,39 @@ public class CreateCommentCommand implements Command {
         this.dislikes = dislikes;
         this.creationDate = creationDate;
         this.placeId = placeId;
+    }
+
+    public static Comment create(String commentText, int quantifiableElement, String email, int reports, int likes,
+            int dislikes, String creationDate, String placeId) {
+        return new Comment(commentText, quantifiableElement, email, reports, likes, dislikes, creationDate, placeId);
+    }
+
+    public HashMap<String, Object> toPrimitives() {
+        return new HashMap<String, Object>() {
+            {
+                put("commentText", commentText);
+                put("quantifiableElement", quantifiableElement);
+                put("email", email);
+                put("reports", reports);
+                put("likes", likes);
+                put("dislikes", dislikes);
+                put("creationDate", creationDate);
+                put("placeId", placeId);
+            }
+        };
+    }
+
+    public static Comment fromPrimitives(HashMap<String, Serializable> data) {
+        return new Comment(
+                (String) data.get("commentText"),
+                (int) data.get("quantifiableElement"),
+                (String) data.get("email"),
+                (int) data.get("reports"),
+                (int) data.get("likes"),
+                (int) data.get("dislikes"),
+                (String) data.get("creationDate"),
+                (String) data.get("placeId")
+        );
     }
 
     public String getCommentText() {
@@ -97,23 +130,23 @@ public class CreateCommentCommand implements Command {
         if (o == null || getClass() != o.getClass())
             return false;
 
-        CreateCommentCommand that = (CreateCommentCommand) o;
+        Comment comment = (Comment) o;
 
-        if (quantifiableElement != that.quantifiableElement)
+        if (quantifiableElement != comment.quantifiableElement)
             return false;
-        if (reports != that.reports)
+        if (reports != comment.reports)
             return false;
-        if (likes != that.likes)
+        if (likes != comment.likes)
             return false;
-        if (dislikes != that.dislikes)
+        if (dislikes != comment.dislikes)
             return false;
-        if (!Objects.equals(commentText, that.commentText))
+        if (!Objects.equals(commentText, comment.commentText))
             return false;
-        if (!Objects.equals(email, that.email))
+        if (!Objects.equals(email, comment.email))
             return false;
-        if (!Objects.equals(creationDate, that.creationDate))
+        if (!Objects.equals(creationDate, comment.creationDate))
             return false;
-        return Objects.equals(placeId, that.placeId);
+        return Objects.equals(placeId, comment.placeId);
     }
 
     @Override
