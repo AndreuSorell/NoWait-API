@@ -7,4 +7,5 @@ public interface CommentRepository {
     List<Comment> searchByEmailAndPlaceId(String email, String placeId);
     List<Comment> searchByPlaceId(String placeId);
     Comment findById(String id);
+    void delete(String id);
 }

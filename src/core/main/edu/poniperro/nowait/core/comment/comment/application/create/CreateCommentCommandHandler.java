@@ -4,7 +4,7 @@ import edu.poniperro.nowait.shared.domain.Service;
 import edu.poniperro.nowait.shared.domain.bus.command.CommandHandler;
 
 @Service
-public class CreateCommentCommandHandler implements CommandHandler<CreateCommentCommand> {
+public final class CreateCommentCommandHandler implements CommandHandler<CreateCommentCommand> {
 
     private final CommentCreator creator;
 

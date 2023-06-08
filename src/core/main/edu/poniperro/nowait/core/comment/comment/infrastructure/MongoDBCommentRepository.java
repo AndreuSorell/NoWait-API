@@ -73,4 +73,10 @@ public class MongoDBCommentRepository implements CommentRepository {
         }
         return Comment.fromPrimitives(id, Utils.jsonDecode(comment.toJson()));
     }
+
+    @Override
+    public void delete(String id) {
+        MongoCollection<Document> commentCollection = database.getCollection("comment");
+        commentCollection.deleteOne(new Document("_id", new ObjectId(id)));
+    }
 }
