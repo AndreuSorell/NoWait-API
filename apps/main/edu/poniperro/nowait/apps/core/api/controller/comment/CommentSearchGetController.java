@@ -27,7 +27,7 @@ public class CommentSearchGetController extends ApiController {
     }
 
     @GetMapping(path = "/comments/search")
-    public List<HashMap<String, Serializable>> index(@RequestBody RequestComments request) throws CommandNotRegisteredError {
+    public List<HashMap<String, Serializable>> index(@RequestBody RequestComment request) throws CommandNotRegisteredError {
 
         CommentsResponse responses = ask(new SearchCommentsByPlaceIdQuery(
                 request.getPlaceId()
@@ -38,26 +38,5 @@ public class CommentSearchGetController extends ApiController {
     @Override
     public HashMap<Class<? extends DomainError>, HttpStatus> errorMapping() {
         return null;
-    }
-}
-
-final class RequestComments {
-    private String token;
-    private String placeId;
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public String getPlaceId() {
-        return placeId;
-    }
-
-    public void setPlaceId(String placeId) {
-        this.placeId = placeId;
     }
 }
