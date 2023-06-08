@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public final class CommentResponse implements Response {
+    private  String id;
     private String commentText;
     private int quantifiableElement;
     private String email;
@@ -17,8 +18,9 @@ public final class CommentResponse implements Response {
     private String creationDate;
     private String placeId;
 
-    public CommentResponse(String commentText, int quantifiableElement, String email,
+    public CommentResponse(String id, String commentText, int quantifiableElement, String email,
                            int reports, int likes, int dislikes, String creationDate, String placeId) {
+        this.id = id;
         this.commentText = commentText;
         this.quantifiableElement = quantifiableElement;
         this.email = email;
@@ -31,6 +33,7 @@ public final class CommentResponse implements Response {
 
     public static CommentResponse fromAggregate(Comment comment) {
         return new CommentResponse(
+                comment.getId(),
                 comment.getCommentText(),
                 comment.getQuantifiableElement(),
                 comment.getEmail(),
@@ -44,6 +47,7 @@ public final class CommentResponse implements Response {
 
     public HashMap<String, Serializable> toPrimitives() {
         return new HashMap<String, Serializable>() {{
+            put("id", id);
             put("commentText", commentText);
             put("quantifiableElement", quantifiableElement);
             put("email", email);

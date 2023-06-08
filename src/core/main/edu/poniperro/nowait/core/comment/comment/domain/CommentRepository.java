@@ -6,4 +6,5 @@ public interface CommentRepository {
     void save(Comment comment);
     List<Comment> searchByEmailAndPlaceId(String email, String placeId);
     List<Comment> searchByPlaceId(String placeId);
+    Comment findById(String id);
 }

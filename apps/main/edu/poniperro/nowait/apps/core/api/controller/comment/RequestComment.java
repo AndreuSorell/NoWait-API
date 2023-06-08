@@ -1,10 +1,19 @@
 package edu.poniperro.nowait.apps.core.api.controller.comment;
 
 public class RequestComment {
+    private String id;
     private String token;
     private String commentText;
     private int quantifiableElement;
     private String placeId;
+
+    public String id() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getToken() {
         return token;
