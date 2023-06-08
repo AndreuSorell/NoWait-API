@@ -8,4 +8,5 @@ public interface CommentRepository {
     List<Comment> searchByPlaceId(String placeId);
     Comment findById(String id);
     void delete(String id);
+    void update(String id, String commentText, int quantifiableElement, String creationDate);
 }

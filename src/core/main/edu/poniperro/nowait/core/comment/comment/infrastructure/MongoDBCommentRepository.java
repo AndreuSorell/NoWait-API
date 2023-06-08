@@ -79,4 +79,18 @@ public class MongoDBCommentRepository implements CommentRepository {
         MongoCollection<Document> commentCollection = database.getCollection("comment");
         commentCollection.deleteOne(new Document("_id", new ObjectId(id)));
     }
+
+    @Override
+    public void update(String id, String commentText, int quantifiableElement, String creationDate) {
+        MongoCollection<Document> commentCollection = database.getCollection("comment");
+        Document comment = commentCollection.find(new Document("_id", new ObjectId(id))).first();
+        if (comment == null) {
+            return;
+        }
+        commentCollection.updateOne(
+                new Document("_id", new ObjectId(id)),
+                new Document("$set", new Document("commentText", commentText)
+                        .append("quantifiableElement", quantifiableElement)
+                        .append("creationDate", creationDate)));
+    }
 }

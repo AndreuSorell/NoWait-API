@@ -7,7 +7,7 @@ public class RequestComment {
     private int quantifiableElement;
     private String placeId;
 
-    public String id() {
+    public String getId() {
         return id;
     }
 
