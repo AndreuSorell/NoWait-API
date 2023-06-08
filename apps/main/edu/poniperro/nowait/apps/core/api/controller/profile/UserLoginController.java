@@ -1,7 +1,5 @@
 package edu.poniperro.nowait.apps.core.api.controller.profile;
 
-//import edu.poniperro.nowait.core.profile.user.application.login.LoginUserQuery;
-import edu.poniperro.nowait.core.profile.user.application.login.UserResponse;
 import edu.poniperro.nowait.core.shared.infrastructure.security.CustomAuthenticationManager;
 import edu.poniperro.nowait.core.shared.infrastructure.security.JwtTokenProvider;
 import edu.poniperro.nowait.shared.domain.DomainError;
@@ -12,7 +10,6 @@ import edu.poniperro.nowait.shared.infraestructure.spring.ApiController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
