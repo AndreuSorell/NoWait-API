@@ -40,7 +40,7 @@ public final class UserLoginController extends ApiController {
     }
 
     @PostMapping(path = "/profile/login")
-    public ResponseEntity<String> index(@RequestBody LoginRequest request) throws QueryNotRegisteredError {
+    public ResponseEntity<String> index(@RequestBody RequestUser request) throws QueryNotRegisteredError {
         // Autenticación y generación de token JWT
         try {
             // Autenticar al usuario
@@ -64,27 +64,5 @@ public final class UserLoginController extends ApiController {
     @Override
     public HashMap<Class<? extends DomainError>, HttpStatus> errorMapping() {
         return null;
-    }
-}
-
-
-final class LoginRequest {
-    private String email;
-    private String password;
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

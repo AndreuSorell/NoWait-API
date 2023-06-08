@@ -28,7 +28,7 @@ public class UserFindGetController extends ApiController {
     }
 
     @GetMapping(path = "/profile/find")
-    public HashMap<String, Serializable> index(@RequestBody RequestUserEmail request) throws CommandNotRegisteredError {
+    public HashMap<String, Serializable> index(@RequestBody RequestUser request) throws CommandNotRegisteredError {
 
         UserResponse response = ask(new FindUserByEmailQuery(
                 jwtTokenProvider.getEmailFromToken(request.getToken())
@@ -39,17 +39,5 @@ public class UserFindGetController extends ApiController {
     @Override
     public HashMap<Class<? extends DomainError>, HttpStatus> errorMapping() {
         return null;
-    }
-}
-
-final class RequestUserEmail {
-    private String token;
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 }
