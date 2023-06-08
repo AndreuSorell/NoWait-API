@@ -7,4 +7,5 @@ public interface UserRepository {
     Optional<User> findByEmailAndPassword(String email, String password);
     void save(User user);
     User searchByEmail(String email);
+    void update(String name, String email, String password, String anonymous);
 }

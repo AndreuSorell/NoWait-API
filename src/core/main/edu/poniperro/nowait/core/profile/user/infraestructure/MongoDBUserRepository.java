@@ -62,4 +62,15 @@ public class MongoDBUserRepository implements UserRepository {
                 return User.fromPrimitives(Utils.jsonDecode(user.toJson()
                 ));
         }
+
+        @Override
+        public void update(String name, String email, String password, String anonymous) {
+                MongoCollection<Document> userCollection = database.getCollection("user");
+                Bson filter = and(eq("email", email));
+                Bson newValue = new Document("name", name)
+                        .append("password", password)
+                        .append("anonymous", anonymous);
+                Bson updateOperationDocument = new Document("$set", newValue);
+                userCollection.updateOne(filter, updateOperationDocument);
+        }
 }
