@@ -1,4 +1,4 @@
-package edu.poniperro.nowait.core.comment.judge.application;
+package edu.poniperro.nowait.core.comment.judge.application.create;
 
 import edu.poniperro.nowait.core.comment.judge.domain.Judge;
 import edu.poniperro.nowait.core.comment.judge.domain.JudgeRepository;

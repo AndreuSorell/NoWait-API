@@ -1,4 +1,4 @@
-package edu.poniperro.nowait.core.comment.judge.application;
+package edu.poniperro.nowait.core.comment.judge.application.create;
 
 import edu.poniperro.nowait.shared.domain.bus.command.Command;
 
