@@ -31,7 +31,7 @@ public final class Comment {
         this.placeId = placeId;
     }
 
-    private Comment(String commentText, int quantifiableElement, String email, int reports, int likes, int dislikes,
+    public Comment(String commentText, int quantifiableElement, String email, int reports, int likes, int dislikes,
                     String creationDate, String placeId) {
         this.commentText = commentText;
         this.quantifiableElement = quantifiableElement;
