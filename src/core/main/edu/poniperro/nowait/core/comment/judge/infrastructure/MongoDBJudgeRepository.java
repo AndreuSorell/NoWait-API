@@ -5,6 +5,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Updates;
 import edu.poniperro.nowait.core.comment.judge.domain.JudgeRepository;
 import edu.poniperro.nowait.shared.domain.Service;
+import edu.poniperro.nowait.shared.domain.Utils;
 import org.springframework.context.annotation.Primary;
 
 import  edu.poniperro.nowait.core.comment.judge.domain.Judge;
@@ -62,12 +63,21 @@ public class MongoDBJudgeRepository implements JudgeRepository {
         UpdateResult result = judgeCollection.updateOne(filter, update);
         // Verificar si se realizó la actualización correctamente
         if (result.getModifiedCount() != 1) {
-            System.out.println("Error al actualizar el documento");
             return false;
         } else {
             return true;
         }
     }
 
-
+    @Override
+    public Judge findByEmailAndCommentId(String email, String commentId) {
+        MongoCollection<Document> judgeCollection = database.getCollection("judge");
+        // Filtrar el documento por email y commentId
+        Bson filter = and(eq("email", email), eq("commentId", commentId));
+        Document judgeDocument = judgeCollection.find(filter).first();
+        if (judgeDocument == null) {
+            return null;
+        }
+        return Judge.fromPrimitives(Utils.jsonDecode(judgeDocument.toJson()));
+    }
 }

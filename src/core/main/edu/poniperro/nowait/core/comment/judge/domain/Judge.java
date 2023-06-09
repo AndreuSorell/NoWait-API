@@ -1,5 +1,6 @@
 package edu.poniperro.nowait.core.comment.judge.domain;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 public final class Judge {
@@ -34,6 +35,16 @@ public final class Judge {
                 put("report", report);
             }
         };
+    }
+
+    public static Judge fromPrimitives(HashMap<String, Serializable> data) {
+        return new Judge(
+            (String) data.get("email"),
+            (String) data.get("commentId"),
+            (int) data.get("like"),
+            (int) data.get("dislike"),
+            (int) data.get("report")
+        );
     }
 
     public String getEmail() {

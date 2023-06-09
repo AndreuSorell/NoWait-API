@@ -93,4 +93,18 @@ public class MongoDBCommentRepository implements CommentRepository {
                         .append("quantifiableElement", quantifiableElement)
                         .append("creationDate", creationDate)));
     }
+
+    @Override
+    public void updateJudge(String id, int likes, int dislikes, int reports) {
+        MongoCollection<Document> commentCollection = database.getCollection("comment");
+        Document comment = commentCollection.find(new Document("_id", new ObjectId(id))).first();
+        if (comment == null) {
+            return;
+        }
+        commentCollection.updateOne(
+                new Document("_id", new ObjectId(id)),
+                new Document("$set", new Document("likes", likes)
+                        .append("dislikes", dislikes)
+                        .append("reports", reports)));
+    }
 }
