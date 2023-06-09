@@ -23,8 +23,7 @@ public class ConcurrenceGetController extends ApiController {
     }
 
     @GetMapping(path = "/concurrence")
-    public HashMap<String, Serializable> index(@RequestBody RequestConcurrence request) throws CommandNotRegisteredError {
-
+    public HashMap<String, Serializable> index(@RequestBody RequestConcurrence request) {
         ConcurrenceResponse response = ask(new ConcurrenceQuery(
                 request.getPlaceId()
         ));
