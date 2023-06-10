@@ -1,8 +1,7 @@
-package edu.poniperro.nowait.apps.core.api.controller.comment;
+package edu.poniperro.nowait.apps.core.api.controller.comment.judge;
 
-import edu.poniperro.nowait.core.comment.comment.application.CommentResponse;
-import edu.poniperro.nowait.core.comment.comment.application.CommentsResponse;
-import edu.poniperro.nowait.core.comment.comment.application.search.SearchCommentsByEmailQuery;
+import edu.poniperro.nowait.core.comment.judge.application.JudgeResponse;
+import edu.poniperro.nowait.core.comment.judge.application.search.SearchJudgeQuery;
 import edu.poniperro.nowait.core.shared.infrastructure.security.JwtTokenProvider;
 import edu.poniperro.nowait.shared.domain.DomainError;
 import edu.poniperro.nowait.shared.domain.bus.command.CommandBus;
@@ -17,25 +16,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
-
 
 @RestController
-public class CommentSearchByEmailGetController extends ApiController {
+public class JudgeSearchGetController extends ApiController {
+
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
-    public CommentSearchByEmailGetController(QueryBus queryBus, CommandBus commandBus) {
+
+    public JudgeSearchGetController(QueryBus queryBus, CommandBus commandBus) {
         super(queryBus, commandBus);
     }
 
-    @GetMapping(path = "/comments/searchByEmail")
-    public List<HashMap<String, Serializable>> index(@RequestBody RequestComment request) throws CommandNotRegisteredError {
+    @GetMapping(path = "/comment/judge/search")
+    public HashMap<String, Serializable> index(@RequestBody RequestJudge request) throws CommandNotRegisteredError {
 
-        CommentsResponse responses = ask(new SearchCommentsByEmailQuery(
-                jwtTokenProvider.getEmailFromToken(request.getToken())
+        JudgeResponse response = ask(new SearchJudgeQuery(
+                jwtTokenProvider.getEmailFromToken(request.getToken()),
+                request.getCommentId()
         ));
-        return responses.getComments().stream().map(CommentResponse::toPrimitives).collect(Collectors.toList());
+        return response.toPrimitives();
     }
 
     @Override
