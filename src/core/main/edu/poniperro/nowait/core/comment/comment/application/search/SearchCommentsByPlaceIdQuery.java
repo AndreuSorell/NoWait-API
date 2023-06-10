@@ -4,7 +4,7 @@ import edu.poniperro.nowait.shared.domain.bus.query.Query;
 
 import java.util.Objects;
 
-public class SearchCommentsByPlaceIdQuery implements Query {
+public final class SearchCommentsByPlaceIdQuery implements Query {
     private String placeId;
 
     public SearchCommentsByPlaceIdQuery(String placeId) {

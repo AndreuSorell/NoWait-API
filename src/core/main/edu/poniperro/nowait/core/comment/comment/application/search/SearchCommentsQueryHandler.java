@@ -5,7 +5,7 @@ import edu.poniperro.nowait.shared.domain.Service;
 import edu.poniperro.nowait.shared.domain.bus.query.QueryHandler;
 
 @Service
-public class SearchCommentsQueryHandler implements QueryHandler<SearchCommentsByPlaceIdQuery, CommentsResponse> {
+public final class SearchCommentsQueryHandler implements QueryHandler<SearchCommentsByPlaceIdQuery, CommentsResponse> {
 
     private final CommentsSearcher searcher;
 

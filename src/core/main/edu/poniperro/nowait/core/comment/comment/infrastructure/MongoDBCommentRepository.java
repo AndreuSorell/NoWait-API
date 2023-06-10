@@ -107,4 +107,19 @@ public class MongoDBCommentRepository implements CommentRepository {
                         .append("dislikes", dislikes)
                         .append("reports", reports)));
     }
+
+    @Override
+    public List<Comment> searchByEmail(String email) {
+        MongoCollection<Document> commentCollection = database.getCollection("comment");
+        // find all comments from an email
+        Bson filter = eq("email", email);
+        List<Document> commentDocuments = commentCollection.find(filter).into(new ArrayList<>());
+        List<Comment> comments = new ArrayList<>();
+        for (Document doc : commentDocuments) {
+            ObjectId id = doc.getObjectId("_id");
+            Comment comment = Comment.fromPrimitives(id.toString(), Utils.jsonDecode(doc.toJson()));
+            comments.add(comment);
+        }
+        return comments;
+    }
 }

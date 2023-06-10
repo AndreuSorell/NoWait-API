@@ -10,4 +10,5 @@ public interface CommentRepository {
     void delete(String id);
     void update(String id, String commentText, int quantifiableElement, String creationDate);
     void updateJudge(String id, int likes, int dislikes, int reports);
+    List<Comment> searchByEmail(String email);
 }
