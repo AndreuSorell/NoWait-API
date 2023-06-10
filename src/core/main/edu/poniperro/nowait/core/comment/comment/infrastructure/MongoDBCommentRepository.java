@@ -8,6 +8,7 @@ import edu.poniperro.nowait.shared.domain.Service;
 import edu.poniperro.nowait.shared.domain.Utils;
 import org.bson.Document;
 import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
 import org.springframework.context.annotation.Primary;
 
 import java.util.ArrayList;
@@ -40,21 +41,83 @@ public class MongoDBCommentRepository implements CommentRepository {
         List<Document> commentDocuments = commentCollection.find(filter).into(new ArrayList<>());
         List<Comment> comments = new ArrayList<>();
         for (Document doc : commentDocuments) {
-            Comment comment = Comment.fromPrimitives(Utils.jsonDecode(doc.toJson()));
+            ObjectId id = doc.getObjectId("_id");
+            Comment comment = Comment.fromPrimitives(id.toString(), Utils.jsonDecode(doc.toJson()));
+            comments.add(comment);
+        }
+        return comments;
+    }
+
+
+    @Override
+    public List<Comment> searchByPlaceId(String placeId) {
+        MongoCollection<Document> commentCollection = database.getCollection("comment");
+        // find all comments from a place
+        Bson filter = eq("placeId", placeId);
+        List<Document> commentDocuments = commentCollection.find(filter).into(new ArrayList<>());
+        List<Comment> comments = new ArrayList<>();
+        for (Document doc : commentDocuments) {
+            ObjectId id = doc.getObjectId("_id");
+            Comment comment = Comment.fromPrimitives(id.toString(), Utils.jsonDecode(doc.toJson()));
             comments.add(comment);
         }
         return comments;
     }
 
     @Override
-    public List<Comment> searchByPlaceId(String placeId) {
+    public Comment findById(String id) {
         MongoCollection<Document> commentCollection = database.getCollection("comment");
-        // find all comments from a place and email
-        Bson filter = and(eq("placeId", placeId));
+        Document comment = commentCollection.find(new Document("_id", new ObjectId(id))).first();
+        if (comment == null) {
+            return new Comment();
+        }
+        return Comment.fromPrimitives(id, Utils.jsonDecode(comment.toJson()));
+    }
+
+    @Override
+    public void delete(String id) {
+        MongoCollection<Document> commentCollection = database.getCollection("comment");
+        commentCollection.deleteOne(new Document("_id", new ObjectId(id)));
+    }
+
+    @Override
+    public void update(String id, String commentText, int quantifiableElement, String creationDate) {
+        MongoCollection<Document> commentCollection = database.getCollection("comment");
+        Document comment = commentCollection.find(new Document("_id", new ObjectId(id))).first();
+        if (comment == null) {
+            return;
+        }
+        commentCollection.updateOne(
+                new Document("_id", new ObjectId(id)),
+                new Document("$set", new Document("commentText", commentText)
+                        .append("quantifiableElement", quantifiableElement)
+                        .append("creationDate", creationDate)));
+    }
+
+    @Override
+    public void updateJudge(String id, int likes, int dislikes, int reports) {
+        MongoCollection<Document> commentCollection = database.getCollection("comment");
+        Document comment = commentCollection.find(new Document("_id", new ObjectId(id))).first();
+        if (comment == null) {
+            return;
+        }
+        commentCollection.updateOne(
+                new Document("_id", new ObjectId(id)),
+                new Document("$set", new Document("likes", likes)
+                        .append("dislikes", dislikes)
+                        .append("reports", reports)));
+    }
+
+    @Override
+    public List<Comment> searchByEmail(String email) {
+        MongoCollection<Document> commentCollection = database.getCollection("comment");
+        // find all comments from an email
+        Bson filter = eq("email", email);
         List<Document> commentDocuments = commentCollection.find(filter).into(new ArrayList<>());
         List<Comment> comments = new ArrayList<>();
         for (Document doc : commentDocuments) {
-            Comment comment = Comment.fromPrimitives(Utils.jsonDecode(doc.toJson()));
+            ObjectId id = doc.getObjectId("_id");
+            Comment comment = Comment.fromPrimitives(id.toString(), Utils.jsonDecode(doc.toJson()));
             comments.add(comment);
         }
         return comments;

@@ -24,4 +24,13 @@ public final class CommentsSearcher {
                         .collect(Collectors.toList())
         );
     }
+
+    public CommentsResponse searchByEmail(String email) {
+        return new CommentsResponse(
+                repository.searchByEmail(email)
+                        .stream()
+                        .map(CommentResponse::fromAggregate)
+                        .collect(Collectors.toList())
+        );
+    }
 }

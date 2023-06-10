@@ -1,10 +1,12 @@
 package edu.poniperro.nowait.core.comment.comment.domain;
 
+import org.bson.types.ObjectId;
+
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Objects;
 
 public final class Comment {
+    private String id;
     private String commentText;
     private int quantifiableElement;
     private String email;
@@ -14,8 +16,23 @@ public final class Comment {
     private String creationDate;
     private String placeId;
 
-    private Comment(String commentText, int quantifiableElement, String email, int reports, int likes, int dislikes,
-            String creationDate, String placeId) {
+    public Comment() {
+    }
+
+    public Comment(String id, String commentText, int quantifiableElement, String email, int reports, int likes, int dislikes, String creationDate, String placeId) {
+        this.id = id;
+        this.commentText = commentText;
+        this.quantifiableElement = quantifiableElement;
+        this.email = email;
+        this.reports = reports;
+        this.likes = likes;
+        this.dislikes = dislikes;
+        this.creationDate = creationDate;
+        this.placeId = placeId;
+    }
+
+    public Comment(String commentText, int quantifiableElement, String email, int reports, int likes, int dislikes,
+                    String creationDate, String placeId) {
         this.commentText = commentText;
         this.quantifiableElement = quantifiableElement;
         this.email = email;
@@ -46,8 +63,9 @@ public final class Comment {
         };
     }
 
-    public static Comment fromPrimitives(HashMap<String, Serializable> data) {
+    public static Comment fromPrimitives(String id, HashMap<String, Serializable> data) {
         return new Comment(
+                id,
                 (String) data.get("commentText"),
                 (int) data.get("quantifiableElement"),
                 (String) data.get("email"),
@@ -57,6 +75,14 @@ public final class Comment {
                 (String) data.get("creationDate"),
                 (String) data.get("placeId")
         );
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getCommentText() {
@@ -121,44 +147,5 @@ public final class Comment {
 
     public void setPlaceId(String placeId) {
         this.placeId = placeId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-
-        Comment comment = (Comment) o;
-
-        if (quantifiableElement != comment.quantifiableElement)
-            return false;
-        if (reports != comment.reports)
-            return false;
-        if (likes != comment.likes)
-            return false;
-        if (dislikes != comment.dislikes)
-            return false;
-        if (!Objects.equals(commentText, comment.commentText))
-            return false;
-        if (!Objects.equals(email, comment.email))
-            return false;
-        if (!Objects.equals(creationDate, comment.creationDate))
-            return false;
-        return Objects.equals(placeId, comment.placeId);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = commentText != null ? commentText.hashCode() : 0;
-        result = 31 * result + quantifiableElement;
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + reports;
-        result = 31 * result + likes;
-        result = 31 * result + dislikes;
-        result = 31 * result + (creationDate != null ? creationDate.hashCode() : 0);
-        result = 31 * result + (placeId != null ? placeId.hashCode() : 0);
-        return result;
     }
 }

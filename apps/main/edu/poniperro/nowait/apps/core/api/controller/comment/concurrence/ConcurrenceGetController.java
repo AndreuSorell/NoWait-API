@@ -1,6 +1,5 @@
-package edu.poniperro.nowait.apps.core.api.controller.concurrence;
+package edu.poniperro.nowait.apps.core.api.controller.comment.concurrence;
 
-import edu.poniperro.nowait.core.comment.comment.application.CommentResponse;
 import edu.poniperro.nowait.core.comment.concurrence.ConcurrenceResponse;
 import edu.poniperro.nowait.core.comment.concurrence.application.ConcurrenceQuery;
 import edu.poniperro.nowait.shared.domain.DomainError;
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class ConcurrenceGetController extends ApiController {
@@ -26,8 +23,7 @@ public class ConcurrenceGetController extends ApiController {
     }
 
     @GetMapping(path = "/concurrence")
-    public HashMap<String, Serializable> index(@RequestBody RequestConcurrence request) throws CommandNotRegisteredError {
-
+    public HashMap<String, Serializable> index(@RequestBody RequestConcurrence request) {
         ConcurrenceResponse response = ask(new ConcurrenceQuery(
                 request.getPlaceId()
         ));
