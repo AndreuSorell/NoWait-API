@@ -1,5 +1,6 @@
 package edu.poniperro.nowait.core.interestPlace.application;
 
+import edu.poniperro.nowait.core.interestPlace.domain.InterestPlace;
 import edu.poniperro.nowait.shared.domain.bus.query.Response;
 
 import java.io.Serializable;
@@ -11,6 +12,16 @@ public class InterestPlaceResponse implements Response {
 
     public InterestPlaceResponse(String placeId) {
         this.placeId = placeId;
+    }
+
+    public static InterestPlaceResponse fromAggregate(InterestPlace interestPlace) {
+        return new InterestPlaceResponse(interestPlace.getPlaceId());
+    }
+
+    public HashMap<String, Serializable> toPrimitives() {
+        return new HashMap<String, Serializable>() {{
+            put("placeId", placeId);
+        }};
     }
 
     public String getPlaceId() {
@@ -36,9 +47,4 @@ public class InterestPlaceResponse implements Response {
         return placeId != null ? placeId.hashCode() : 0;
     }
 
-    public HashMap<String, Serializable> toPrimitives() {
-        return new HashMap<String, Serializable>() {{
-            put("placeId", placeId);
-        }};
-    }
 }
