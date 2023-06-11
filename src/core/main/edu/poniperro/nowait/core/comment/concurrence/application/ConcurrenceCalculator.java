@@ -2,6 +2,7 @@ package edu.poniperro.nowait.core.comment.concurrence.application;
 
 import edu.poniperro.nowait.core.comment.comment.domain.Comment;
 import edu.poniperro.nowait.core.comment.comment.domain.CommentRepository;
+import edu.poniperro.nowait.core.comment.concurrence.ConcurrencePerDayResponse;
 import edu.poniperro.nowait.core.comment.concurrence.ConcurrenceResponse;
 import edu.poniperro.nowait.shared.domain.Service;
 
@@ -20,8 +21,8 @@ public final class ConcurrenceCalculator {
 
     public ConcurrenceResponse calculate(String placeId) {
         int average = calculateConcurrenceLastHour(placeId);
-        List<Integer> today = calculateConcurrencePerHour(placeId);
-        List<Integer> week = calculateConcurrencePerDay(placeId);
+        List<Integer> today = calculateConcurrenceToday(placeId);
+        List<Integer> week = calculateConcurrenceWeek(placeId);
         return new ConcurrenceResponse(average, today, week);
     }
 
@@ -44,7 +45,7 @@ public final class ConcurrenceCalculator {
         return count > 0 ? total / count : 0;
     }
 
-    public List<Integer> calculateConcurrencePerHour(String placeId) {
+    public List<Integer> calculateConcurrenceToday(String placeId) {
         // comments last 24 hours
         List<Comment> commentsLastDay = new ArrayList<Comment>();
         LocalDateTime currentDateTime = LocalDateTime.now();
@@ -75,7 +76,7 @@ public final class ConcurrenceCalculator {
         return hourlyAverages;
     }
 
-    public List<Integer> calculateConcurrencePerDay(String placeId) {
+    public List<Integer> calculateConcurrenceWeek(String placeId) {
         // comments last 7 days
         List<Comment> commentsLastWeek = new ArrayList<Comment>();
         LocalDateTime currentDateTime = LocalDateTime.now();
@@ -104,6 +105,36 @@ public final class ConcurrenceCalculator {
         }
 
         return dailyAverages;
+    }
+
+    public ConcurrencePerDayResponse calculateConcurrencePerDay(String placeId, int day) {
+        List<Comment> commentsPerDay = new ArrayList<>();
+        LocalDateTime currentDateTime = LocalDateTime.now().minusDays(day);
+        for (Comment comment : repository.searchByPlaceId(placeId)) {
+            LocalDateTime commentDateTime = LocalDateTime.parse(comment.getCreationDate());
+            if (commentDateTime.toLocalDate().isEqual(currentDateTime.toLocalDate())) {
+                commentsPerDay.add(comment); // Agrega el comentario si es del día indicado
+            }
+        }
+
+        List<Integer> hourlyAverages = new ArrayList<>();
+        LocalDateTime hourIterator = currentDateTime.withHour(0).withMinute(0).withSecond(0); // Inicia el iterador de horas en la hora 00:00:00
+        for (int i = 0; i < 24; i++) {
+            int total = 0;
+            int count = 0;
+            for (Comment comment : commentsPerDay) {
+                LocalDateTime commentDateTime = LocalDateTime.parse(comment.getCreationDate());
+                if (commentDateTime.isAfter(hourIterator) && commentDateTime.isBefore(hourIterator.plusHours(1))) { // Verifica si el comentario está dentro de la hora
+                    total += comment.getQuantifiableElement();
+                    count++;
+                }
+            }
+            int hourlyAverage = count > 0 ? total / count : 0;
+            hourlyAverages.add(hourlyAverage);
+            hourIterator = hourIterator.plusHours(1);
+        }
+
+        return new ConcurrencePerDayResponse(hourlyAverages);
     }
 
 
