@@ -32,4 +32,18 @@ public class MongoDBInterestPlaceRepository implements InterestPlaceRepository {
         }
         interestPlaceCollection.insertOne(new Document(interestPlace.toPrimitives()));
     }
+
+    @Override
+    public InterestPlace findByEmailAndPlaceId(String email, String placeId) {
+        MongoCollection<Document> interestPlaceCollection = database.getCollection("interestPlace");
+        Bson filter = and(eq("email", email), eq("placeId", placeId));
+        Document document = interestPlaceCollection.find(filter).first();
+        if (document == null) {
+            return null;
+        }
+        return InterestPlace.fromPrimitives(
+                document.getString("email"),
+                document.getString("placeId")
+        );
+    }
 }
