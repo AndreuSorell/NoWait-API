@@ -1,5 +1,6 @@
 package edu.poniperro.nowait.core.interestPlace.domain;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -18,8 +19,11 @@ public final class InterestPlace {
         return new InterestPlace(email, placeId);
     }
 
-    public static InterestPlace fromPrimitives(String email, String placeId) {
-        return new InterestPlace(email, placeId);
+    public static InterestPlace fromPrimitives(HashMap<String, Serializable> data) {
+        return new InterestPlace(
+                (String) data.get("email"),
+                (String) data.get("placeId")
+        );
     }
 
     public HashMap<String, Object> toPrimitives() {
