@@ -39,7 +39,7 @@ public final class UserCreatePostController extends ApiController {
                     request.getEmail(),
                     request.getPassword(),
                     request.getAnonymous(),
-                    request.getType(),
+                    "standard",
                     LocalDateTime.now().toString()));
 
             return new ResponseEntity<String>("User created", HttpStatus.CREATED); // 201
