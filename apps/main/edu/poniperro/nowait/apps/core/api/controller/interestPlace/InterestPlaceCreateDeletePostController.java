@@ -1,6 +1,6 @@
 package edu.poniperro.nowait.apps.core.api.controller.interestPlace;
 
-import edu.poniperro.nowait.core.interestPlace.application.create.CreateInterestPlaceCommand;
+import edu.poniperro.nowait.core.interestPlace.application.createOrDelete.CreateOrDeleteInterestPlaceCommand;
 import edu.poniperro.nowait.core.shared.infrastructure.security.JwtTokenProvider;
 import edu.poniperro.nowait.shared.domain.DomainError;
 import edu.poniperro.nowait.shared.domain.bus.command.CommandBus;
@@ -18,21 +18,21 @@ import javax.annotation.security.PermitAll;
 import java.util.HashMap;
 
 @RestController
-public final class InterestPlaceCreatePostController extends ApiController {
+public final class InterestPlaceCreateDeletePostController extends ApiController {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
-    public InterestPlaceCreatePostController(QueryBus queryBus, CommandBus commandBus) {
+    public InterestPlaceCreateDeletePostController(QueryBus queryBus, CommandBus commandBus) {
         super(queryBus, commandBus);
     }
 
     @PermitAll
-    @PostMapping(path = "/interestPlace/create")
+    @PostMapping(path = "/interestPlace/createOrDelete")
     public ResponseEntity index(@RequestBody RequestInterestPlace request) throws CommandNotRegisteredError {
-        dispatch(new CreateInterestPlaceCommand(
+        dispatch(new CreateOrDeleteInterestPlaceCommand(
                 jwtTokenProvider.getEmailFromToken(request.getToken()),
                 request.getPlaceId()
         ));
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override

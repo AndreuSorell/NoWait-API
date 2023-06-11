@@ -1,14 +1,14 @@
-package edu.poniperro.nowait.core.interestPlace.application.create;
+package edu.poniperro.nowait.core.interestPlace.application.createOrDelete;
 
 import edu.poniperro.nowait.shared.domain.bus.command.Command;
 
 import java.util.Objects;
 
-public class CreateInterestPlaceCommand implements Command {
+public class CreateOrDeleteInterestPlaceCommand implements Command {
     private String email;
     private String placeId;
 
-    public CreateInterestPlaceCommand(String email, String placeId) {
+    public CreateOrDeleteInterestPlaceCommand(String email, String placeId) {
         this.email = email;
         this.placeId = placeId;
     }
@@ -34,7 +34,7 @@ public class CreateInterestPlaceCommand implements Command {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CreateInterestPlaceCommand that = (CreateInterestPlaceCommand) o;
+        CreateOrDeleteInterestPlaceCommand that = (CreateOrDeleteInterestPlaceCommand) o;
 
         if (!Objects.equals(email, that.email)) return false;
         return Objects.equals(placeId, that.placeId);

@@ -22,15 +22,16 @@ public class MongoDBInterestPlaceRepository implements InterestPlaceRepository {
     }
 
     @Override
-    public void save(InterestPlace interestPlace) {
+    public boolean save(InterestPlace interestPlace) {
         MongoCollection<Document> interestPlaceCollection = database.getCollection("interestPlace");
         // Se verifica si ya existe un documento con el mismo email y placeId
         Bson filter = and(eq("email", interestPlace.getEmail()), eq("placeId", interestPlace.getPlaceId()));
         Document existingDocument = interestPlaceCollection.find(filter).first();
         if (existingDocument != null) {
-            return;
+            return false;
         }
         interestPlaceCollection.insertOne(new Document(interestPlace.toPrimitives()));
+        return true;
     }
 
     @Override
@@ -45,5 +46,12 @@ public class MongoDBInterestPlaceRepository implements InterestPlaceRepository {
                 document.getString("email"),
                 document.getString("placeId")
         );
+    }
+
+    @Override
+    public void deleteByEmailAndPlaceId(String email, String placeId) {
+        MongoCollection<Document> interestPlaceCollection = database.getCollection("interestPlace");
+        Bson filter = and(eq("email", email), eq("placeId", placeId));
+        interestPlaceCollection.deleteOne(filter);
     }
 }
