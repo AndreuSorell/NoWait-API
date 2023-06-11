@@ -9,7 +9,7 @@ import edu.poniperro.nowait.shared.domain.bus.command.CommandNotRegisteredError;
 import edu.poniperro.nowait.shared.domain.bus.query.QueryBus;
 import edu.poniperro.nowait.shared.infraestructure.spring.ApiController;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,13 +20,13 @@ import java.util.stream.Collectors;
 
 
 @RestController
-public class CommentSearchGetController extends ApiController {
+public class CommentSearchPostController extends ApiController {
 
-    public CommentSearchGetController(QueryBus queryBus, CommandBus commandBus) {
+    public CommentSearchPostController(QueryBus queryBus, CommandBus commandBus) {
         super(queryBus, commandBus);
     }
 
-    @GetMapping(path = "/comments/search")
+    @PostMapping(path = "/comments/search")
     public List<HashMap<String, Serializable>> index(@RequestBody RequestComment request) throws CommandNotRegisteredError {
 
         CommentsResponse responses = ask(new SearchCommentsByPlaceIdQuery(
