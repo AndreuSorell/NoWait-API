@@ -20,17 +20,18 @@ public final class ConcurrenceCalculator {
     }
 
     public ConcurrenceResponse calculate(String placeId) {
-        int average = calculateConcurrenceLastHour(placeId);
-        List<Integer> today = calculateConcurrenceToday(placeId);
-        List<Integer> week = calculateConcurrenceWeek(placeId);
+        List<Comment> comments = repository.searchByPlaceId(placeId);
+        int average = calculateConcurrenceLastHour(comments);
+        List<Integer> today = calculateConcurrenceToday(comments);
+        List<Integer> week = calculateConcurrenceWeek(comments);
         return new ConcurrenceResponse(average, today, week);
     }
 
-    public int calculateConcurrenceLastHour(String placeId) {
+    public int calculateConcurrenceLastHour(List<Comment> comments) {
         List<Comment> commentsLastHour = new ArrayList<Comment>();
         LocalDateTime currentDateTime = LocalDateTime.now();
 
-        for (Comment comment : repository.searchByPlaceId(placeId)) {
+        for (Comment comment : comments) {
             LocalDateTime commentDateTime = LocalDateTime.parse(comment.getCreationDate());
             if (commentDateTime.isAfter(currentDateTime.minusHours(1))) {
                 commentsLastHour.add(comment);
@@ -45,11 +46,11 @@ public final class ConcurrenceCalculator {
         return count > 0 ? total / count : 0;
     }
 
-    public List<Integer> calculateConcurrenceToday(String placeId) {
+    public List<Integer> calculateConcurrenceToday(List<Comment> comments) {
         // comments last 24 hours
         List<Comment> commentsLastDay = new ArrayList<Comment>();
         LocalDateTime currentDateTime = LocalDateTime.now();
-        for (Comment comment : repository.searchByPlaceId(placeId)) {
+        for (Comment comment : comments) {
             LocalDateTime commentDateTime = LocalDateTime.parse(comment.getCreationDate());
             if (commentDateTime.isAfter(currentDateTime.minusHours(24))) { // Verifica si el comentario está dentro de las últimas 24 horas
                 commentsLastDay.add(comment);
@@ -76,11 +77,11 @@ public final class ConcurrenceCalculator {
         return hourlyAverages;
     }
 
-    public List<Integer> calculateConcurrenceWeek(String placeId) {
+    public List<Integer> calculateConcurrenceWeek(List<Comment> comments) {
         // comments last 7 days
         List<Comment> commentsLastWeek = new ArrayList<Comment>();
         LocalDateTime currentDateTime = LocalDateTime.now();
-        for (Comment comment : repository.searchByPlaceId(placeId)) {
+        for (Comment comment : comments) {
             LocalDateTime commentDateTime = LocalDateTime.parse(comment.getCreationDate());
             if (commentDateTime.isAfter(currentDateTime.minusDays(7))) {
                 commentsLastWeek.add(comment);
