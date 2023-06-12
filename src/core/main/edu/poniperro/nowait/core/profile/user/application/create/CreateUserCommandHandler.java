@@ -14,7 +14,7 @@ public final class CreateUserCommandHandler implements CommandHandler<CreateUser
 
     @Override
     public void handle(CreateUserCommand command) {
-        creator.create(command.getId(), command.getName(), command.getEmail(), command.getPassword(), command.getAnonymous(),
+        creator.create(command.getName(), command.getEmail(), command.getPassword(), command.getAnonymous(),
                 command.getType(), command.getCreationDate());
     }
 }

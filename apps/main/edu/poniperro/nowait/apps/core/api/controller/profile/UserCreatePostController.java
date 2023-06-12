@@ -1,6 +1,8 @@
 package edu.poniperro.nowait.apps.core.api.controller.profile;
 
 import edu.poniperro.nowait.core.profile.user.application.create.CreateUserCommand;
+import edu.poniperro.nowait.core.profile.user.application.search.SearchUserEmailQuery;
+import edu.poniperro.nowait.core.profile.user.application.search.SearchUserEmailResponse;
 import edu.poniperro.nowait.shared.domain.DomainError;
 import edu.poniperro.nowait.shared.domain.bus.command.CommandBus;
 import edu.poniperro.nowait.shared.domain.bus.command.CommandNotRegisteredError;
@@ -12,8 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.security.PermitAll;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
+@PermitAll
 @RestController
 public final class UserCreatePostController extends ApiController {
 
@@ -21,88 +27,32 @@ public final class UserCreatePostController extends ApiController {
         super(queryBus, commandBus);
     }
 
+    @PermitAll
     @PostMapping(path = "/profile/create")
-    public ResponseEntity index(@RequestBody RequestUser request) throws CommandNotRegisteredError {
-        dispatch(new CreateUserCommand(
-                request.getId(),
-                request.getName(),
-                request.getEmail(),
-                request.getPassword(),
-                request.getAnonymous(),
-                request.getType(),
-                request.getCreationDate()));
+    public HashMap<String, Serializable>  index(@RequestBody RequestUser request) throws CommandNotRegisteredError {
+        SearchUserEmailResponse response = ask(new SearchUserEmailQuery(request.getEmail()));
+        if (!response.getEmail().equals("")) {
+            return new HashMap<String, Serializable>() {{
+                put("token", "User already exists");
+            }};
+        }
+        else {
+            dispatch(new CreateUserCommand(
+                    request.getName(),
+                    request.getEmail(),
+                    request.getPassword(),
+                    request.getAnonymous(),
+                    "standard",
+                    LocalDateTime.now().toString()));
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+            return new HashMap<String, Serializable>() {{
+                put("token", "User created");
+            }};
+        }
     }
 
     @Override
     public HashMap<Class<? extends DomainError>, HttpStatus> errorMapping() {
         return null;
-    }
-}
-
-final class RequestUser {
-    private int id;
-    private String name;
-    private String email;
-    private String password;
-    private String anonymous;
-    private String type;
-    private String creationDate;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getAnonymous() {
-        return anonymous;
-    }
-
-    public void setAnonymous(String anonymous) {
-        this.anonymous = anonymous;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(String creationDate) {
-        this.creationDate = creationDate;
     }
 }

@@ -1,10 +1,17 @@
 package edu.poniperro.nowait.core.profile.user.domain;
 
+import org.bson.types.ObjectId;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public final class User {
-    private int id;
+    private ObjectId id;
     private String name;
     private String email;
     private String password;
@@ -12,9 +19,19 @@ public final class User {
     private String type;
     private String creationDate;
 
-    public User(int id, String name, String email, String password, String anonymous, String type,
-            String creationDate) {
+    public User(ObjectId id, String name, String email, String password, String anonymous, String type,
+                String creationDate) {
         this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.anonymous = anonymous;
+        this.type = type;
+        this.creationDate = creationDate;
+    }
+
+    public User(String name, String email, String password, String anonymous, String type,
+                String creationDate) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -26,14 +43,13 @@ public final class User {
     public User() {
     }
 
-    public static User create(int id, String name, String email, String password, String anonymous, String type,
-            String creationDate) {
-        return new User(id, name, email, password, anonymous, type, creationDate);
+    public static User create(String name, String email, String password, String anonymous, String type,
+                              String creationDate) {
+        return new User(name, email, password, anonymous, type, creationDate);
     }
 
     public HashMap<String, Object> toPrimitives() {
         return new HashMap<String, Object>() {{
-            put("id", id);
             put("name", name);
             put("email", email);
             put("password", password);
@@ -43,11 +59,37 @@ public final class User {
         }};
     }
 
-    public int getId() {
+    /*public static User fromPrimitives(ObjectId id, String name, String email, String password, String anonymous,
+                                      String type, LocalDateTime creationDate) {
+        return new User(id, name, email, password, anonymous, type, creationDate);
+    }*/
+
+    public static User fromPrimitives(Map<String, Serializable> plainData) {
+        String name = (String) plainData.get("name");
+        String email = (String) plainData.get("email");
+        String password = (String) plainData.get("password");
+        String anonymous = (String) plainData.get("anonymous");
+        String type = (String) plainData.get("type");
+        String creationDate = (String) plainData.get("creationDate");
+        /*Map<String, Integer> creationDateMap = (Map<String, Integer>) plainData.get("creationDate");
+        int year = creationDateMap.get("year");
+        int month = creationDateMap.get("month");
+        int day = creationDateMap.get("day");
+        int hour = creationDateMap.get("hour");
+        int minute = creationDateMap.get("minute");
+        int second = creationDateMap.get("second");
+
+        LocalDateTime creationDate = LocalDateTime.of(year, month, day, hour, minute, second);*/
+
+        return new User(name, email, password, anonymous, type, creationDate);
+    }
+
+
+    public ObjectId getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(ObjectId id) {
         this.id = id;
     }
 
@@ -117,7 +159,7 @@ public final class User {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
@@ -125,5 +167,9 @@ public final class User {
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (creationDate != null ? creationDate.hashCode() : 0);
         return result;
+    }
+
+    public User  orElseThrow(Object userNotFound) {
+        return null;
     }
 }

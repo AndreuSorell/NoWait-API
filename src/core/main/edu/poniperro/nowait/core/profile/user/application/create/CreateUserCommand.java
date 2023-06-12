@@ -1,11 +1,12 @@
 package edu.poniperro.nowait.core.profile.user.application.create;
 
 import edu.poniperro.nowait.shared.domain.bus.command.Command;
+import org.bson.types.ObjectId;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class CreateUserCommand implements Command {
-    private int id;
     private String name;
     private String email;
     private String password;
@@ -13,33 +14,14 @@ public class CreateUserCommand implements Command {
     private String type;
     private String creationDate;
 
-    public CreateUserCommand(int id, String name, String email, String password, String anonymous, String type,
-            String creationDate) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.anonymous = anonymous;
-        this.type = type;
-        this.creationDate = creationDate;
-    }
-
     public CreateUserCommand(String name, String email, String password, String anonymous, String type,
-            String creationDate) {
+                             String creationDate) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.anonymous = anonymous;
         this.type = type;
         this.creationDate = creationDate;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -97,7 +79,6 @@ public class CreateUserCommand implements Command {
 
         CreateUserCommand that = (CreateUserCommand) o;
 
-        if (id != that.id) return false;
         if (!Objects.equals(name, that.name)) return false;
         if (!Objects.equals(email, that.email)) return false;
         if (!Objects.equals(password, that.password)) return false;
@@ -108,8 +89,7 @@ public class CreateUserCommand implements Command {
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
+        int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (anonymous != null ? anonymous.hashCode() : 0);

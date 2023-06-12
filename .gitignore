@@ -42,3 +42,6 @@ out/
 
 ## CI
 ../.gitlab-ci.yml
+
+## Properties
+*.properties

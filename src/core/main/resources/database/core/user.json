@@ -1,7 +1,7 @@
 [
   {
-    "key": "id",
-    "name": "id",
+    "key": "email",
+    "name": "email",
     "ascending": true,
     "unique": true,
     "background": false
