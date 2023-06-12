@@ -18,4 +18,17 @@ class CreateCommentCommandHandlerShould {
         handler = new CreateCommentCommandHandler(new CommentCreator(repository));
     }
 
+    @Test
+    void should_create_comment_when_command_is_valid() {
+        CreateCommentCommand command = CreateCommentCommandMother.random();
+        handler.handle(command);
+        verify(repository, times(1)).save(any(Comment.class));
+    }
+
+    @Test
+    void should_create_comment_with_comment_text() {
+        CreateCommentCommand command = CreateCommentCommandMother.random();
+        handler.handle(command);
+        verify(repository, times(1)).save(argThat(comment -> comment.getCommentText().equals(command.getCommentText())));
+    }
 }

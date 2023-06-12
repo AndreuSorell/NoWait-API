@@ -1,5 +1,6 @@
 package edu.poniperro.nowait.core.comment.comment.application.search;
 
+import edu.poniperro.nowait.core.comment.comment.application.CommentMother;
 import edu.poniperro.nowait.core.comment.comment.application.CommentsResponse;
 import edu.poniperro.nowait.core.comment.comment.domain.CommentRepository;
 import edu.poniperro.nowait.shared.domain.MotherCreator;

@@ -1,4 +1,4 @@
-package edu.poniperro.nowait.core.comment.comment.application.search;
+package edu.poniperro.nowait.core.comment.comment.application;
 
 import edu.poniperro.nowait.core.comment.comment.domain.Comment;
 import edu.poniperro.nowait.shared.domain.MotherCreator;
@@ -44,8 +44,22 @@ public class CommentMother {
                 MotherCreator.random().number().randomDigit(),
                 MotherCreator.random().number().randomDigit(),
                 MotherCreator.random().number().randomDigit(),
-                MotherCreator.random().date().toString(),
+                "2023-06-12T13:20:16.960651066",
                 placeId
+        );
+    }
+
+    public static Comment create(String id) {
+        return new Comment(
+                id,
+                MotherCreator.random().name().name(),
+                MotherCreator.random().number().randomDigit(),
+                MotherCreator.random().internet().emailAddress(),
+                MotherCreator.random().number().randomDigit(),
+                MotherCreator.random().number().randomDigit(),
+                MotherCreator.random().number().randomDigit(),
+                MotherCreator.random().date().toString(),
+                MotherCreator.random().name().firstName()
         );
     }
 }

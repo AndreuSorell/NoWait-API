@@ -6,15 +6,17 @@ import edu.poniperro.nowait.shared.domain.bus.command.CommandHandler;
 @Service
 public final class UpdateCommentCommandHandler implements CommandHandler<UpdateCommentCommand> {
 
-            private final CommentUpdater updater;
+    private final CommentUpdater updater;
 
-            public UpdateCommentCommandHandler(CommentUpdater updater) {
-                this.updater = updater;
-            }
+    public UpdateCommentCommandHandler(CommentUpdater updater) {
+        this.updater = updater;
+    }
 
-            @Override
-            public void handle(UpdateCommentCommand command) {
-
-                updater.update(command.getId(), command.getCommentText(), command.getQuantifiableElement(), command.getCreationDate());
-            }
+    @Override
+    public void handle(UpdateCommentCommand command) {
+        if (command.getId()==null) {
+            return;
+        }
+        updater.update(command.getId(), command.getCommentText(), command.getQuantifiableElement(), command.getCreationDate());
+    }
 }
