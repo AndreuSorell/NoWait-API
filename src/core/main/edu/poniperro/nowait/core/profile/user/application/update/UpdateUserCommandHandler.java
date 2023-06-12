@@ -14,7 +14,9 @@ public final class UpdateUserCommandHandler implements CommandHandler<UpdateUser
 
         @Override
         public void handle(UpdateUserCommand command) {
-
+            if (command.getEmail() == null) {
+                return;
+            }
             updater.update(command.getName(), command.getEmail(), command.getPassword(), command.getAnonymous());
         }
 }
