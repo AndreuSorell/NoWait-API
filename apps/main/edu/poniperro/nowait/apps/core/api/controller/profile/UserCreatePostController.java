@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.security.PermitAll;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
@@ -28,10 +29,12 @@ public final class UserCreatePostController extends ApiController {
 
     @PermitAll
     @PostMapping(path = "/profile/create")
-    public ResponseEntity<String> index(@RequestBody RequestUser request) throws CommandNotRegisteredError {
+    public HashMap<String, Serializable>  index(@RequestBody RequestUser request) throws CommandNotRegisteredError {
         SearchUserEmailResponse response = ask(new SearchUserEmailQuery(request.getEmail()));
         if (!response.getEmail().equals("")) {
-            return new ResponseEntity<String>("User already exists", HttpStatus.CONFLICT); // 409
+            return new HashMap<String, Serializable>() {{
+                put("token", "User already exists");
+            }};
         }
         else {
             dispatch(new CreateUserCommand(
@@ -42,7 +45,9 @@ public final class UserCreatePostController extends ApiController {
                     "standard",
                     LocalDateTime.now().toString()));
 
-            return new ResponseEntity<String>("User created", HttpStatus.CREATED); // 201
+            return new HashMap<String, Serializable>() {{
+                put("token", "User created");
+            }};
         }
     }
 
