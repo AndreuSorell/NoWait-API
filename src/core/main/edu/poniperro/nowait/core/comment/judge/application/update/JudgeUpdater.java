@@ -66,6 +66,9 @@ public final class JudgeUpdater {
         } else if (report == 1) {
             updateDislikes(commentId, hasDislike);
             updateReports(commentId, hasReport);
+            if (hasLike) {
+                updateLikesOpposite(commentId);
+            }
         }
     }
 
