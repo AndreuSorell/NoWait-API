@@ -54,7 +54,7 @@ En la siguiente imagen se puede observar un ejemplo de los componentes que se cr
 
 ![componentes](imgs/Captura%20desde%202023-06-01%2009-48-12.png)
 
-El controller se encuentra en la carpeta 'api', luego los servicios como 'CreateUserCommand', 'CreateUserCommandHandler' y 'UserCreator' se encuentrán en la carpeta 'application' del 'core'. En la carpeta 'dominio' se encuentra la clase 'User' y la interfaz 'UserRepository. Y por último, la clase 'MongoDBUserRepository' se encuentra en la carpeta 'infrastructure'.
+El controller se encuentra en la carpeta 'api'. Luego los servicios como 'CreateUserCommand', 'CreateUserCommandHandler' y 'UserCreator' se encuentrán en la carpeta 'application' del 'core'. En la carpeta 'dominio' se encuentra la clase 'User' y la interfaz 'UserRepository, que son llamadas desde 'UserCreator'. Y por último, la clase 'MongoDBUserRepository' se encuentra en la carpeta 'infrastructure'.
 
 # Despliegue
 
