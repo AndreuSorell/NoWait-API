@@ -10,6 +10,7 @@ API para gestionar la concurrencia en un lugar en tiempo real
     - [Componentes](#componentes)
 - [Testing](#testing)
 - [Despliegue](#despliegue)
+  - [Ejecución](#ejecución)
 - [Metodología de desarrollo](#metodología-de-desarrollo)
 - [Git Flow](#git-flow)
 - [Justificación temporal](#justificación-temporal)
@@ -71,7 +72,7 @@ Se ha utilizado DigitalOcean para administrar el servidor y el dominio utilizado
 
 Para ejecutar la API en el servidor de DigitalOcean se ha creado una imagen de Docker (andreusorell/nowait).
 
-**Ejecución:**
+## Ejecución:
 
 ```
 docker pull andreusorell/nowait
