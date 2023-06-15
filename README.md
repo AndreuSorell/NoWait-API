@@ -8,6 +8,7 @@ API para gestionar la concurrencia en un lugar en tiempo real
     - [Arquitectura de la aplicación](#arquitectura-de-la-aplicación)
     - [Tecnologías utilizadas](#tecnologías-utilizadas)
     - [Componentes](#componentes)
+- [Testing](#testing)
 - [Despliegue](#despliegue)
 - [Metodología de desarrollo](#metodología-de-desarrollo)
 - [Git Flow](#git-flow)
@@ -56,11 +57,29 @@ En la siguiente imagen se puede observar un ejemplo de los componentes que se cr
 
 El controller se encuentra en la carpeta 'api'. Luego los servicios como 'CreateUserCommand', 'CreateUserCommandHandler' y 'UserCreator' se encuentrán en la carpeta 'application' del 'core'. En la carpeta 'dominio' se encuentra la clase 'User' y la interfaz 'UserRepository, que son llamadas desde 'UserCreator'. Y por último, la clase 'MongoDBUserRepository', que implementa los métodos de la interfaz 'UserRepository', se encuentra en la carpeta 'infrastructure'.
 
+# Testing
+
+Se han realizado test unitarios utilizando la librería de junit.
+
+En los test, se han utilizado mocks para simular el comportamiento de dependencias externas, como bases de datos o servicios, proporcionando datos random como entrada para probar diferentes escenarios. Esto permite evaluar el código de manera independiente y asegurarse de que funcione correctamente bajo diversas condiciones.
+
+![test](imgs/test.png)
+
 # Despliegue
 
 Se ha utilizado DigitalOcean para administrar el servidor y el dominio utilizado [nowait.social](http://nowait.social/).
 
 Para ejecutar la API en el servidor de DigitalOcean se ha creado una imagen de Docker (andreusorell/nowait).
+
+**Ejecución:**
+
+```
+docker pull andreusorell/nowait
+```
+```
+docker run --rm --name nowait-back -d -p 8081:8080 andreusorell/nowait
+```
+
 
 # Metodología de desarrollo
 
@@ -85,7 +104,7 @@ El git flow que he seguido es el siguiente:
 
 # Justificación temporal
 
-![tiempo](imgs/image.png)
+![tiempo](imgs/justMespres.png)
 
 Donde he tardado más es en el montaje del proyecto, autenticación y autorización, e implementación de las primeras historias de usuario.
 
@@ -94,6 +113,16 @@ Esto es debido a que he tenido que familiarizarme con Spring Boot (framework que
 Además, en la autenticación y autorización he tardado tanto debido a versiones de dependencias y métodos obsoletos, cosa que ha afectado tambíen en el despliegue ya que he tenido que actualizarlas y modificarlas para poder desplegar la API correctamente.
 
 Una vez familiarizado con lo comentado, la realización de las siguientes historias de usuario se han realizado con el tiempo estimado.
+
+## Presupuesto
+
+**Desarrollador:** 1563.42€ (14€/hora)
+
+**Servidor y dominio:** 10€ mensual. 120€ anual.
+
+**Equipo:** 400€
+
+**Total: 2083.42€** 
 
 # Historias de usuario no implementadas
 
